@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     {
         public string cardName;
         public string description;
+		public string cost = "0";
+		public string attack ="0";
+		public string health = "0";
     }
 
     public List<CardPlaceholder> cards;
@@ -59,8 +62,12 @@ public class GameManager : MonoBehaviour
     public void CreateCardObject(CardPlaceholder cardToCreate)
     {
         GameObject card = Instantiate(cardPrefab);
-        card.GetComponent<Card>().SetCardName(cardToCreate.cardName);
-        card.GetComponent<Card>().SetDescription(cardToCreate.description);
+		Card c = card.GetComponent<Card> ();
+        c.SetTitle(cardToCreate.cardName);
+        c.SetDescription(cardToCreate.description);
+		c.SetCost (cardToCreate.cost);
+		c.SetAttack (cardToCreate.attack);
+		c.SetHealth (cardToCreate.health);
         card.transform.SetParent(hand.transform);
 
         // FIXME:
@@ -75,10 +82,10 @@ public class GameManager : MonoBehaviour
     private void InitCards()
     {
         cards = new List<CardPlaceholder>();
-		cards.Add(new CardPlaceholder { cardName = "Boulderfist Ogre" });
-        cards.Add(new CardPlaceholder { cardName = "Chillwind Yeti" });
-		cards.Add(new CardPlaceholder { cardName = "Yogg Saron, Hope's End", description = "Battlecry: OH SHIT!" });
-        cards.Add(new CardPlaceholder { cardName = "N'zoth", description = "Battlecry: One more time, with feeling." });
+		cards.Add(new CardPlaceholder { cardName = "Boulderfist Ogre", cost = "6", attack = "6", health = "7"});
+		cards.Add(new CardPlaceholder { cardName = "Chillwind Yeti", cost = "4", attack = "4", health = "5" });
+		cards.Add(new CardPlaceholder { cardName = "Yogg Saron, Hope's End", description = "Battlecry: OH SHIT!", cost = "10", attack = "7", health = "5" });
+		cards.Add(new CardPlaceholder { cardName = "N'zoth", description = "Battlecry: One more time, with feeling.", cost = "10", attack = "5", health = "7" });
     }
 
     // Use this for initialization
