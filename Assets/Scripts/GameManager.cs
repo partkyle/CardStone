@@ -76,9 +76,10 @@ public class GameManager : MonoBehaviour
     private void InitCards()
     {
         cards = new List<CardPlaceholder>();
-        cards.Add(new CardPlaceholder { cardName = "Ogre" });
-        cards.Add(new CardPlaceholder { cardName = "Yogg Saron, Hope's End", description = "Battlecry: OH SHIT!" });
-        cards.Add(new CardPlaceholder { cardName = "Danny McBride", description = "Battlecry: pretty much ruin everything" });
+		cards.Add(new CardPlaceholder { cardName = "Boulderfist Ogre" });
+        cards.Add(new CardPlaceholder { cardName = "Chillwind Yeti" });
+		cards.Add(new CardPlaceholder { cardName = "Yogg Saron, Hope's End", description = "Battlecry: OH SHIT!" });
+        cards.Add(new CardPlaceholder { cardName = "N'zoth", description = "Battlecry: One more time, with feeling." });
     }
 
     // Use this for initialization
