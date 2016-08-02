@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
     public void CreateCardObject(CardPlaceholder cardToCreate)
     {
         GameObject card = Instantiate(cardPrefab);
-        // TODO: figure out why the text resize doesn't work.
         card.GetComponent<Card>().SetCardName(cardToCreate.cardName);
         card.GetComponent<Card>().SetDescription(cardToCreate.description);
         card.transform.SetParent(hand.transform);
