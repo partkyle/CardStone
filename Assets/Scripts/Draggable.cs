@@ -75,15 +75,19 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
+        int siblingIndex = this.placeholder.transform.GetSiblingIndex();
+
         Transform newParent = FindNearestDropPoint(eventData);
         if (newParent == null)
         {
-            newParent = this.oldParent;
+            transform.SetParent(oldParent);
+            transform.SetSiblingIndex(siblingIndex);
         }
-        this.oldParent = null;
-
-        int siblingIndex = this.placeholder.transform.GetSiblingIndex();
-        GameManager.instance.DropCard(newParent.gameObject, gameObject, siblingIndex);
+        else
+        {
+            GameManager.instance.DropCard(newParent.gameObject, gameObject, siblingIndex);
+        }
+        oldParent = null;
         
         // clear out the placeholder
         Destroy(placeholder);
