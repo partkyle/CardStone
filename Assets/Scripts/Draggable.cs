@@ -47,6 +47,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             comparison = this.oldParent;
         }
 
+        if (comparison.tag != tag)
+        {
+            return;
+        }
+
         this.placeholder.transform.SetParent(comparison);
 
         int newSiblingIndex = comparison.childCount;
