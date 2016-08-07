@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     public GameObject minionPrefab;
 
     public GameObject playerHand;
+    public GameObject playerTabletop;
+    public GameObject opponnentHand;
+    public GameObject oppennentTabletop;
 
     public void Awake()
     {
