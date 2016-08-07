@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         cards.Add(new CardPlaceholder { title = "N'zoth", description = "Battlecry: One more time, with feeling.", cost = "10", attack = "5", health = "7" });
     }
 
-    public void DropCard(GameObject dropZone, GameObject card)
+    public void DropCard(GameObject dropZone, GameObject card, int siblingIndex)
     {
         GameObject minion = Instantiate<GameObject>(minionPrefab);
         Card minionRef = minion.GetComponent<Card>();
@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
         minionRef.InitCard();
 
         minion.transform.SetParent(dropZone.transform);
+        minion.transform.SetSiblingIndex(siblingIndex);
 
         // FIXME:
         // not sure why this is needed. This seems to work when the draw card button is clicked.

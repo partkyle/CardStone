@@ -14,7 +14,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag");
-        
+
         // create a placeholder object when dragging and dropping
         placeholder = new GameObject();
         placeholder.name = "Placeholder";
@@ -49,10 +49,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         this.placeholder.transform.SetParent(comparison);
-        
+
         int newSiblingIndex = comparison.childCount;
 
-        for(int i=0; i < comparison.childCount; i++)
+        for (int i = 0; i < comparison.childCount; i++)
         {
             if (this.transform.position.x < comparison.GetChild(i).position.x)
             {
@@ -83,13 +83,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         this.oldParent = null;
 
-        GameManager.instance.DropCard(newParent.gameObject, gameObject);
-
-        if (this.placeholder != null)
-        {
-            this.transform.SetSiblingIndex(this.placeholder.transform.GetSiblingIndex());
-        }
-
+        int siblingIndex = this.placeholder.transform.GetSiblingIndex();
+        GameManager.instance.DropCard(newParent.gameObject, gameObject, siblingIndex);
+        
         // clear out the placeholder
         Destroy(placeholder);
     }
@@ -97,7 +93,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private static Transform FindNearestDropPoint(PointerEventData eventData)
     {
         Transform newParent = null;
-    
+
         // find all raycasts that are below the mouse,
         // get the first draggable and use that as the drop point.
         System.Collections.Generic.List<RaycastResult> results = new System.Collections.Generic.List<RaycastResult>();
