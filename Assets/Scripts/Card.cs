@@ -5,41 +5,52 @@ public class Card : MonoBehaviour
 {
     public GameObject title;
     public GameObject description;
-	public GameObject cost;
-	public GameObject attack;
-	public GameObject health;
+    public GameObject cost;
+    public GameObject attack;
+    public GameObject health;
 
-	public void Awake()
-	{
-		title = transform.Find ("Title").gameObject;
-		description = transform.Find ("Description").gameObject;
-		cost = transform.Find ("Cost").gameObject;
-		attack = transform.Find ("Attack").gameObject;
-		health = transform.Find ("Health").gameObject;
-	}
+    public GameManager.CardPlaceholder referenceCard;
 
-    public void SetTitle(string title)
+    public void Awake()
+    {
+        title = transform.Find("Title").gameObject;
+        description = transform.Find("Description").gameObject;
+        cost = transform.Find("Cost").gameObject;
+        attack = transform.Find("Attack").gameObject;
+        health = transform.Find("Health").gameObject;
+    }
+
+    public void InitCard()
+    {
+        SetTitle(this.referenceCard.title);
+        SetDescription(this.referenceCard.description);
+        SetCost(this.referenceCard.cost);
+        SetAttack(this.referenceCard.attack);
+        SetHealth(this.referenceCard.health);
+    }
+
+    private void SetTitle(string title)
     {
         this.title.GetComponent<Text>().text = title;
     }
 
-    public void SetDescription(string description)
+    private void SetDescription(string description)
     {
         this.description.GetComponent<Text>().text = description;
     }
 
-	public void SetCost(string cost)
-	{
-		this.cost.GetComponent<Text> ().text = cost;
-	}
+    private void SetCost(string cost)
+    {
+        this.cost.GetComponent<Text>().text = cost;
+    }
 
-	public void SetAttack(string attack)
-	{
-		this.attack.GetComponent<Text> ().text = attack;
-	}
+    private void SetAttack(string attack)
+    {
+        this.attack.GetComponent<Text>().text = attack;
+    }
 
-	public void SetHealth(string health)
-	{
-		this.health.GetComponent<Text> ().text = health;
-	}
+    private void SetHealth(string health)
+    {
+        this.health.GetComponent<Text>().text = health;
+    }
 }
