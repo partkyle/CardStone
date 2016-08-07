@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
-    public Transform oldParent = null;
+    private Transform oldParent = null;
 
-    GameObject placeholder = null;
+    private GameObject placeholder = null;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -82,14 +82,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             newParent = this.oldParent;
         }
         this.oldParent = null;
-        
-        this.transform.SetParent(newParent);
+
+        GameManager.instance.DropCard(newParent.gameObject, gameObject);
 
         if (this.placeholder != null)
         {
             this.transform.SetSiblingIndex(this.placeholder.transform.GetSiblingIndex());
         }
-        
+
         // clear out the placeholder
         Destroy(placeholder);
     }

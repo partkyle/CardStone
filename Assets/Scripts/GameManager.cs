@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
@@ -19,6 +18,7 @@ public class GameManager : MonoBehaviour
     public List<CardPlaceholder> cards;
     public GameObject hand;
     public GameObject cardPrefab;
+    public GameObject minionPrefab;
 
     public void Awake()
     {
@@ -85,15 +85,23 @@ public class GameManager : MonoBehaviour
         cards.Add(new CardPlaceholder { title = "N'zoth", description = "Battlecry: One more time, with feeling.", cost = "10", attack = "5", health = "7" });
     }
 
-    // Use this for initialization
-    void Start()
+    public void DropCard(GameObject dropZone, GameObject card)
     {
+        GameObject minion = Instantiate<GameObject>(minionPrefab);
+        Card minionRef = minion.GetComponent<Card>();
+        minionRef.referenceCard = card.GetComponent<Card>().referenceCard;
+        minionRef.InitCard();
 
+        minion.transform.SetParent(dropZone.transform);
+
+        // FIXME:
+        // not sure why this is needed. This seems to work when the draw card button is clicked.
+        // perhaps it has something to do with the board not being completly loaded, and the size is
+        // off there?
+        minion.transform.localScale = Vector3.one;
+
+        Destroy(card);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 }
