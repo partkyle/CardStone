@@ -6,6 +6,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
+    public enum Turn
+    {
+        Player,
+        Opponent
+    };
+
+    Turn currentTurn = Turn.Player;
+
     public class CardPlaceholder
     {
         public string title;
@@ -23,7 +31,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerHand;
     public GameObject playerTabletop;
     public GameObject opponnentHand;
-    public GameObject oppennentTabletop;
+    public GameObject opponnentTabletop;
 
     public void Awake()
     {
@@ -41,21 +49,36 @@ public class GameManager : MonoBehaviour
 
         InitCards();
 
-        Hand handObject = playerHand.GetComponent<Hand>();
-        if (handObject != null)
+        Turn[] turns = new Turn[] { Turn.Player, Turn.Opponent };
+        foreach (Turn turn in turns)
         {
-            for (int i = 0; i < 3; i++)
+            Hand handObject;
+            if (turn == Turn.Player)
             {
-                //handObject.Draw(cards[Random.Range(0, cards.Count - 1)]);
-                CardPlaceholder card = RandomCard();
-                Debug.Log("creating card " + card.title);
-                CreateCardObject(card);
+                handObject = opponnentHand.GetComponent<Hand>();
+            }
+            else
+            {
+                handObject = playerHand.GetComponent<Hand>();
+            }
+            if (handObject != null)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    //handObject.Draw(cards[Random.Range(0, cards.Count - 1)]);
+                    CardPlaceholder card = RandomCard();
+                    Debug.Log("creating card " + card.title);
+                    CreateCardObject(card, turn);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Not a hand object");
             }
         }
-        else
-        {
-            Debug.LogWarning("Not a hand object");
-        }
+
+
+        ResetTurnState();
     }
 
     public CardPlaceholder RandomCard()
@@ -64,13 +87,26 @@ public class GameManager : MonoBehaviour
         return card;
     }
 
-    public void CreateCardObject(CardPlaceholder cardToCreate)
+    public void CreateCardObject(CardPlaceholder cardToCreate, Turn player = Turn.Player)
     {
         GameObject card = Instantiate(cardPrefab);
         Card c = card.GetComponent<Card>();
+
         c.referenceCard = cardToCreate;
         c.InitCard();
-        card.transform.SetParent(playerHand.transform);
+
+        Transform destination;
+        if (player == Turn.Player)
+        {
+            destination = playerHand.transform;
+            card.tag = "Player";
+        }
+        else
+        {
+            destination = opponnentHand.transform;
+            card.tag = "Opponent";
+        }
+        card.transform.SetParent(destination);
 
         // FIXME:
         // not sure why this is needed. This seems to work when the draw card button is clicked.
@@ -109,5 +145,37 @@ public class GameManager : MonoBehaviour
         Destroy(card);
     }
 
+    public void SwitchTurn()
+    {
+        if (currentTurn == Turn.Player)
+        {
+            currentTurn = Turn.Opponent;
+        }
+        else
+        {
+            currentTurn = Turn.Player;
+        }
 
+        ResetTurnState();
+    }
+
+    private void ResetTurnState()
+    {
+        Debug.Log("setting up turn for " + currentTurn);
+
+        if (currentTurn == Turn.Player)
+        {
+            //opponnentHand.GetComponent<Draggable>().enabled = false;
+            opponnentTabletop.GetComponent<DropZone>().enabled = false;
+            //playerHand.GetComponent<Draggable>().enabled = true;
+            playerTabletop.GetComponent<DropZone>().enabled = true;
+        }
+        else
+        {
+            //opponnentHand.GetComponent<Draggable>().enabled = true;
+            opponnentTabletop.GetComponent<DropZone>().enabled = true;
+            //playerHand.GetComponent<Draggable>().enabled = false;
+            playerTabletop.GetComponent<DropZone>().enabled = false;
+        }
+    }
 }

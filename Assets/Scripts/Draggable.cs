@@ -85,10 +85,23 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         else
         {
-            GameManager.instance.DropCard(newParent.gameObject, gameObject, siblingIndex);
+            bool enabled = newParent.GetComponentInChildren<DropZone>().enabled;
+            Debug.Log("dropping " + tag + " to " + newParent + " while board enabled: " + enabled);
+            bool shouldDrop = enabled;
+            shouldDrop = shouldDrop && newParent.GetComponent<DropZone>().tag == tag;
+            if (shouldDrop)
+            {
+                Debug.Log("starting a drop");
+                GameManager.instance.DropCard(newParent.gameObject, gameObject, siblingIndex);
+            }
+            else
+            {
+                transform.SetParent(oldParent);
+                transform.SetSiblingIndex(siblingIndex);
+            }
         }
         oldParent = null;
-        
+
         // clear out the placeholder
         Destroy(placeholder);
     }
