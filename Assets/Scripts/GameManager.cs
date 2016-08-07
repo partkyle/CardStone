@@ -65,10 +65,7 @@ public class GameManager : MonoBehaviour
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    //handObject.Draw(cards[Random.Range(0, cards.Count - 1)]);
-                    CardPlaceholder card = RandomCard();
-                    Debug.Log("creating card " + card.title);
-                    CreateCardObject(card, turn);
+                    DrawCardForPlayer(turn);
                 }
             }
             else
@@ -79,6 +76,14 @@ public class GameManager : MonoBehaviour
 
 
         ResetTurnState();
+    }
+
+    private void DrawCardForPlayer(Turn turn)
+    {
+        //handObject.Draw(cards[Random.Range(0, cards.Count - 1)]);
+        CardPlaceholder card = RandomCard();
+        Debug.Log("creating card " + card.title);
+        CreateCardObject(card, turn);
     }
 
     public CardPlaceholder RandomCard()
@@ -177,5 +182,7 @@ public class GameManager : MonoBehaviour
             //playerHand.GetComponent<Draggable>().enabled = false;
             playerTabletop.GetComponent<DropZone>().enabled = false;
         }
+
+        DrawCardForPlayer(currentTurn);
     }
 }
