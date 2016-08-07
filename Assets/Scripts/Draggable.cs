@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-
     private Transform oldParent = null;
 
     private GameObject placeholder = null;

@@ -15,10 +15,12 @@ public class GameManager : MonoBehaviour
         public string health = "0";
     }
 
-    public List<CardPlaceholder> cards;
-    public GameObject hand;
+    private List<CardPlaceholder> cards;
+
     public GameObject cardPrefab;
     public GameObject minionPrefab;
+
+    public GameObject playerHand;
 
     public void Awake()
     {
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviour
 
         InitCards();
 
-        Hand handObject = hand.GetComponent<Hand>();
+        Hand handObject = playerHand.GetComponent<Hand>();
         if (handObject != null)
         {
             for (int i = 0; i < 3; i++)
@@ -65,7 +67,7 @@ public class GameManager : MonoBehaviour
         Card c = card.GetComponent<Card>();
         c.referenceCard = cardToCreate;
         c.InitCard();
-        card.transform.SetParent(hand.transform);
+        card.transform.SetParent(playerHand.transform);
 
         // FIXME:
         // not sure why this is needed. This seems to work when the draw card button is clicked.
