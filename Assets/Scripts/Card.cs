@@ -11,6 +11,11 @@ public class Card : MonoBehaviour
 
     public GameManager.CardPlaceholder referenceCard;
 
+    public Animator anim;
+
+    Draggable draggable;
+    CanvasGroup canvasGroup;
+
     public void Awake()
     {
         title = transform.Find("Title").gameObject;
@@ -18,6 +23,10 @@ public class Card : MonoBehaviour
         cost = transform.Find("Cost").gameObject;
         attack = transform.Find("Attack").gameObject;
         health = transform.Find("Health").gameObject;
+
+        anim = GetComponent<Animator>();
+        draggable = GetComponent<Draggable>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void InitCard()
@@ -27,6 +36,15 @@ public class Card : MonoBehaviour
         SetCost(this.referenceCard.cost);
         SetAttack(this.referenceCard.attack);
         SetHealth(this.referenceCard.health);
+    }
+
+    public void GoAway()
+    {
+        anim.SetTrigger("Summon");
+        draggable.enabled = false;
+        canvasGroup.blocksRaycasts = false;
+
+        Destroy(gameObject, 1f);
     }
 
     private void SetTitle(string title)

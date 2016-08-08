@@ -10,9 +10,12 @@ class DragTransform : MonoBehaviour
 
     private Vector3 lastPoint = Vector3.zero;
 
+    private Vector3 originalPosition;
+
     void Awake()
     {
         oldY = transform.position.y;
+        originalPosition = transform.position;
     }
 
 
@@ -21,6 +24,8 @@ class DragTransform : MonoBehaviour
         Debug.Log("OnMouseDown");
         distance = Vector3.Distance(transform.position, Camera.main.transform.position);
         dragging = true;
+
+        originalPosition = transform.position;
     }
 
     void OnMouseUp()
@@ -42,7 +47,6 @@ class DragTransform : MonoBehaviour
             Quaternion rot = transform.rotation;
 
             rot.z = .01f * mouseDirection.x;
-            rot.z = mouseDirection.x == 0 ? 0 : rot.z;
             transform.rotation = rot;
         }
         else
@@ -52,6 +56,8 @@ class DragTransform : MonoBehaviour
             Quaternion rot = transform.rotation;
             rot.z = 0;
             transform.rotation = rot;
+
+            transform.position = originalPosition;
 
         }
 

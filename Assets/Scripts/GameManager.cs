@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
         // off there?
         minion.transform.localScale = Vector3.one;
 
-        Destroy(card);
+        card.GetComponent<Card>().GoAway();
     }
 
     public void SwitchTurn()
